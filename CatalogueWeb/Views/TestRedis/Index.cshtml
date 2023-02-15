@@ -1,0 +1,42 @@
+﻿@model RedisBusiness.Entities.PipelineDTO;
+@{
+    ViewData["Title"] = "Home Test Redis";
+}
+
+<div class="text-center">
+	<h1 class="display-4">Welcome Test Redis</h1>
+    
+	<br/>
+	<br/>
+    
+	<div class="container text-center">
+		<div class="row align-items-start" style="padding-bottom: 20px;padding-top: 20px;">
+			<div class="col" style="background-color: #82258e;">
+				Unpipelined
+			</div>
+			<div class="col" style="background-color: #82258e;">
+				AutomaticallyPipelined
+			</div>
+			<div class="col" style="background-color: #82258e;">
+				BatchedPipelined
+			</div>
+		</div>
+		<div class="row ">
+			<div class="col">
+				@Model.Unpipelined
+			</div>
+			<div class="col">
+				@Model.AutomaticallyPipelined
+			</div>
+			<div class="col" >
+				@Model.BatchedPipelined
+			</div>
+		</div>
+		</div>
+
+	<br/>
+    <p>Learn about <a href="https://redis.io/">Redis</a>.</p>
+    <p>@Model.EndPointCollection -- @Model.Database -- @Model.Ping</p>
+
+   
+</div>

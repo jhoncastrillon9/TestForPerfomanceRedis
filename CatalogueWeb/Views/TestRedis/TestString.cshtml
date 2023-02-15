@@ -1,0 +1,84 @@
+﻿@model RedisBusiness.Entities.StringDTO;
+@{
+    ViewData["Title"] = "Home Test Redis String";
+}
+
+<div class="text-center">
+	<h1 class="display-4">Welcome Test Redis - String</h1>
+    
+	<br/>
+	<br/>
+    
+	<div class="container text-center">
+		<div class="row align-items-start" style="padding-bottom: 20px;padding-top: 20px;">
+			<div class="col" style="background-color: #82258e;">
+				Time Seconds
+			</div>
+		</div>
+		<div class="row ">
+			<div class="col">
+				@Model.TimeSeconds
+			</div>
+		</div>
+	</div>
+	<br/>
+	<div class="form-group">
+		<label for="quantity">Ingrese la cantidad</label>
+		<input type="number" id="quantity" name="quantity" class="form-control" placeholder="Cantidad" value="1000">
+	</div>
+
+	<br/>
+	<div class="form-group">
+		<input type="radio" name="pipeline" value="@((int)RedisBusiness.Enums.PipelineEnum.UnPipelined).ToString()"> Unpipelined <br>
+		<input type="radio" name="pipeline" value="@((int)RedisBusiness.Enums.PipelineEnum.PipelinedTasks).ToString()"> PipelinedTasks <br>
+		<input type="radio" name="pipeline" value="@((int)RedisBusiness.Enums.PipelineEnum.BatchedCommands).ToString()"> BatchedCommands <br>
+	</div>
+
+	<button type="button" id="addKeys" class="btn btn-primary">Add Keys</button>
+	<br />
+	<br/>
+	<div class="vstack gap-3">
+		@foreach (var item in @Model.Instructors)
+		{
+			<div class="bg-body-tertiary border">@item</div>
+		}
+	</div>
+
+	<br/>
+	<p>Learn about <a href="https://redis.io/">Redis</a>.</p>
+	<p>@Model.EndPointCollection -- @Model.Database -- @Model.Ping</p>
+
+   
+</div>
+
+
+
+@section scripts {
+	<script>
+		
+$(document).ready(function () {
+$("#addKeys").click(function () {
+var quantity = $("#quantity").val();
+var pipeline = $("input[name='pipeline']:checked").val();
+				console.log(pipeline);
+$.ajax({
+url: "/TestRedis/AddKeys",
+type: "GET",
+					data: { quantity: quantity, pipeline: parseInt(pipeline) },
+success: function (data) {
+var instructors = data.instructors;
+var timeSeconds = data.timeSeconds;					
+$(".vstack").empty();
+					for (var i = 0; i < instructors.length; i++) {
+						$(".vstack").append('<div class="bg-body-tertiary border">' + instructors[i] + '</div>');
+					}
+					
+					$(".col").empty();
+					$(".col").append(timeSeconds);
+				}
+			});
+		});
+	});
+
+	</script>
+}
